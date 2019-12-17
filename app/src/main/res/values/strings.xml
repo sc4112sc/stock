@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Trading Trainer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+    <string name="title_activity_stock_detail">StockDetailActivity</string>
+
+    <string name="plzLogIn">請先登入帳號</string>
+    <string name="plzChange">請點選角色頭像</string>
+    <string name="plzCreate">請先創造角色</string>
+    <string name="plzEnterName">請輸入玩家名稱</string>
+    <string name="REPEAT_NAME">玩家名稱重複</string>
+    <string name="NEW_PLAYER">已建立新玩家</string>
+    <string name="POSITIVE">確定</string>
+    <string name="NEGATIVE">否定</string>
+    <string name="NOT_LOGIN">未登入</string>
+    <string name="BUYING">購買</string>
+    <string name="UNIT">股</string>
+    <string name="GAME_START">遊戲開始</string>
+    <string name="title_activity_stock_game">StockGameActivity</string>
+    <string name="check_for_sell">請確認販賣數量</string>
+    <string name="NOT_ENOUGH_CASH">晶礦不足</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

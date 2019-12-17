@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreareRoleActivity"
+    android:orientation="horizontal"
+    android:background="@drawable/cr_bg01"
+    >
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/shadow"
+
+        >
+        <com.romainpiel.shimmer.ShimmerTextView
+            android:id="@+id/shimmer_tv"
+            android:text="Role"
+            android:layout_width="24sp"
+            android:layout_height="0dp"
+            android:layout_weight="9"
+            android:textColor="@android:color/holo_purple"
+            android:textSize="36sp"
+            android:layout_gravity="center"
+            android:gravity="center"/>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"></TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"></TextView>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:background="@drawable/tr1"
+            android:onClick="goup"
+            ></Button>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="9"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nickname"
+            android:layout_width="400dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:counterEnabled="true"
+            app:counterMaxLength="10"
+
+            android:layout_gravity="center">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Nickname"
+                android:maxLength="10"
+                android:inputType="textPersonName"
+
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.skyfishjy.library.RippleBackground
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:id="@+id/content2"
+            app:rb_color="@android:color/holo_purple"
+            app:rb_radius="30dp"
+            app:rb_rippleAmount="5"
+            app:rb_duration="3000"
+            app:rb_scale="60"
+            app:rb_type="strokeRipple"
+            app:rb_strokeWidth="30dp">
+        <ImageView
+            android:id="@+id/myCha"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/c1_list"
+            android:layout_centerInParent="true"></ImageView>
+        </com.skyfishjy.library.RippleBackground>
+        <com.lukedeighton.wheelview.WheelView
+            android:id="@+id/wheelview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            app:wheelColor="@android:color/holo_orange_light"
+            app:rotatableWheelDrawable="false"
+            app:selectionAngle="90.0"
+            app:wheelPosition="bottom"
+            app:wheelOffsetY="120dp"
+            app:repeatItems="true"
+            app:wheelRadius="276dp"
+            app:wheelItemCount="10"
+            app:wheelPadding="13dp"
+            app:wheelItemRadius="43dp"
+            app:selectionColor="@android:color/holo_purple"
+
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/btnCreateRole"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:text="GO"
+            android:textStyle="bold"
+            android:textSize="24dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/mybutton"
+            ></Button>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9"></TextView>
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:background="@drawable/tr2"
+            android:onClick="godown"
+            ></ImageView>
+    </LinearLayout>
+
+</LinearLayout>

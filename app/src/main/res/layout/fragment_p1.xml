@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".P1">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.flaviofaria.kenburnsview.KenBurnsView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/cr_bg01" ></com.flaviofaria.kenburnsview.KenBurnsView>
+        <TextView
+            android:id="@+id/tvWinPercent"
+            android:layout_width="242dp"
+            android:layout_height="121dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="38dp"
+            android:layout_marginBottom="174dp"
+            android:background="@drawable/transparent_r"
+            android:gravity="center"
+            android:text="勝率\n50%"
+            android:textColor="#F11305"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tvWinCount"
+            android:layout_width="144dp"
+            android:layout_height="68dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="72dp"
+            android:layout_marginBottom="95dp"
+            android:background="@drawable/transparent_r"
+            android:gravity="center"
+            android:text="獲利次數\n2次"
+            android:textColor="#F11305"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tvLoseCount"
+            android:layout_width="151dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="146dp"
+            android:layout_marginBottom="26dp"
+            android:background="@drawable/transparent_g"
+            android:gravity="center"
+            android:text="失敗次數\n1次"
+            android:textColor="#4CAF50"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tvTotalTransaction"
+            android:layout_width="221dp"
+            android:layout_height="86dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="312dp"
+            android:layout_marginBottom="155dp"
+            android:background="@drawable/transparent_b"
+            android:gravity="center"
+            android:text="總交易次數\n4次"
+            android:textColor="#2196F3"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tvLoseMaxPercent"
+            android:layout_width="170dp"
+            android:layout_height="91dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="322dp"
+            android:layout_marginBottom="44dp"
+            android:background="@drawable/transparent_g"
+            android:gravity="center"
+            android:text="最高虧損率\n40%"
+            android:textColor="#4CAF50"
+            android:textSize="20dp" />
+
+
+    </RelativeLayout>
+
+
+</FrameLayout>

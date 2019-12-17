@@ -1,0 +1,282 @@
+package com.example.ch06startactforresult;
+
+import android.annotation.SuppressLint;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.example.ch06startactforresult.R;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+
+public class FragmentSell extends Fragment {
+
+    private View myView;
+    private ListView lvStocks;
+    private MyAdapter myAdapter;
+    private LinkedList<HashMap<String,String>> data;
+    private StockGameActivity stockGameActivity;
+    private Button btnSell;
+    private int[] sellList;
+    private int[] posessList;
+    private static String rawData;
+    private DBHelper dbHelper;
+    private Cursor cursor;
+    private static SQLiteDatabase db;
+    private static String account,playerName;
+
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+      //  if(myView==null) {
+            myView = inflater.inflate(R.layout.fragment_sell, container, false);
+            lvStocks = myView.findViewById(R.id.lvStocks);
+            btnSell = myView.findViewById(R.id.btnSell);
+            btnSell.setOnClickListener(sellClickListener);
+            dbHelper = getStockGameActivity().dbHelper;
+            account = getStockGameActivity().getAccount();
+            playerName=getStockGameActivity().getPlayerName();
+            TextView tvStockID = myView.findViewById(R.id.tvStockID);
+            tvStockID.setText(getStockGameActivity().getStockID());
+            //不需要
+            /*
+            Cursor cursor=null;
+          //  cursor = dbHelper.queryPlayerData(getActivity().getIntent().getStringExtra("account"),
+       //             getActivity().getIntent().getStringExtra("playerName"));
+            cursor = dbHelper.queryPlayerData(account,playerName);
+            if(cursor.getCount()>0){
+                cursor.moveToFirst();
+                test.setText(cursor.getString(1));
+            }
+            */
+            initListView();
+            fetchRemoteData();
+       // }
+        return myView;
+    }
+
+    private boolean isSellValidate(){
+        int itemTotal = lvStocks.getChildCount();
+        if(itemTotal>0){
+            posessList = new int[itemTotal];
+            sellList = new int[itemTotal];
+            int posses,sell;
+            String temp;
+            for(int i=0;i<itemTotal;i++){
+                try{
+                    temp = ((EditText)(lvStocks.getChildAt(i).findViewById(R.id.itemSellQ))).getText().toString();
+                    posses = Integer.parseInt(((TextView)(lvStocks.getChildAt(i).findViewById(R.id.itemQuantity))).getText().toString());
+
+                    posessList[i]=posses;
+                    if(temp.equals("")){
+                        sell=0;
+                        sellList[i]=0;
+                    }
+                    else{
+                        sell = Integer.parseInt(temp);
+                        sellList[i]=sell;
+                    }
+                    if(sell>posses){
+                        Toast.makeText(getContext(),getResources().getString(R.string.check_for_sell),Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                }
+                catch (Exception e){e.printStackTrace();}
+            }
+        }
+        return true;
+    }
+
+
+    private void sellStocks(){
+        float sellPrice = getStockGameActivity().getCurrentSellPrice();
+        int totalSell=getTotalSell();
+        int cashAdder = (int)(sellPrice * totalSell);
+        int cashTotal = getStockGameActivity().getCurrentCash() + cashAdder;
+        String stocksList = getStocksList();
+        dbHelper.updateSellOutcome(account,playerName,stocksList,cashTotal);
+        getStockGameActivity().loadingLocalUserData();
+        //getStockGameActivity().notifyDataChange();
+
+    }
+    private String getStocksList(){
+        String stocksList="";
+        resetStocksList();
+        int itemTotal = lvStocks.getChildCount();
+        for(int i=0;i<itemTotal;i++){
+            if(posessList[i]!=0){
+                String itemDate = ((TextView)lvStocks.getChildAt(i).findViewById(R.id.itemDate)).getText().toString();
+                String itemQuantity = ((TextView)lvStocks.getChildAt(i).findViewById(R.id.itemQuantity)).getText().toString();
+                String itemBuyPrice = ((TextView)lvStocks.getChildAt(i).findViewById(R.id.itemBuyPrice)).getText().toString();
+                stocksList+=itemDate+ ":" + itemQuantity+","+itemBuyPrice;
+                if(i!=itemTotal-1)
+                    stocksList+=";";
+            }
+        }
+
+        return stocksList;
+    }
+
+    private void resetStocksList(){
+        int itemTotal = lvStocks.getChildCount();
+        for(int i=0;i<itemTotal;i++){
+            try{
+                //posses = Integer.parseInt(((TextView)(lvStocks.getChildAt(i).findViewById(R.id.itemQuantity))).getText().toString());
+              //  sell = Integer.parseInt(((EditText)(lvStocks.getChildAt(i).findViewById(R.id.etSellQ))).getText().toString());
+                posessList[i]-=sellList[i];
+                ((TextView)(lvStocks.getChildAt(i).findViewById(R.id.itemQuantity))).setText(""+posessList[i]);
+                ((EditText)(lvStocks.getChildAt(i).findViewById(R.id.itemSellQ))).setText("0");
+            }
+            catch (Exception e){e.printStackTrace();}
+        }
+    }
+
+    private StockGameActivity getStockGameActivity(){
+        return (StockGameActivity)getActivity();
+    }
+
+    private int getTotalSell(){
+        int total=0;
+        int itemTotal = lvStocks.getChildCount();
+        //int adder;
+        for(int i=0;i<itemTotal;i++){
+            try{
+               // adder = Integer.parseInt(((EditText)(lvStocks.getChildAt(i).findViewById(R.id.etSellQ))).getText().toString());
+                total+=sellList[i];
+            }
+            catch (Exception e){e.printStackTrace();}
+        }
+        return total;
+    }
+
+    private boolean isAllZero(){
+        int zeroCount=0;
+        int itemtaotal = lvStocks.getChildCount();
+        for(int i=0;i<itemtaotal;i++){
+            EditText etSellQ = lvStocks.getChildAt(i).findViewById(R.id.itemSellQ);
+            if(!etSellQ.getText().toString().equals("")){
+                int temp = Integer.parseInt(etSellQ.getText().toString());
+                if(temp==0)
+                    zeroCount++;
+            }
+        }
+        if (zeroCount==itemtaotal)
+            return true;
+        else
+            return false;
+    }
+
+    OnClickListener sellClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(!isAllZero() && isSellValidate()){
+                sellStocks();
+            }
+/*
+            int itemTotal = lvStocks.getChildCount();
+            if(itemTotal>0){
+                for(int i=0;i<itemTotal;i++) {
+                    View item = lvStocks.getChildAt(i);
+                    EditText etSell = item.findViewById(R.id.etSellQ);
+                    TextView itemQuantity = item.findViewById(R.id.itemQuantity);
+                    itemQuantity.setText(etSell.getText().toString());
+                }
+
+            }*/
+        }
+    };
+
+    public void fetchRemoteData(){
+        cursor=null;
+        rawData="";
+        cursor = dbHelper.queryPlayerData(account,playerName);
+        if(cursor.getCount()>0){
+            cursor.moveToFirst();
+            rawData = cursor.getString(6);
+        }
+        if(rawData!=""){
+            String[] root = rawData.split(";");
+            try{
+                String temp[];
+                String temp2[];
+                for (int i=0;i<root.length;i++){
+                    HashMap<String,String> dd = new HashMap<>();
+                     temp=root[i].split(":");
+                    dd.put("Date",temp[0]);
+                    temp2=temp[1].split(",");
+                    dd.put("Quantity",temp2[0]);
+                    dd.put("Price",temp2[1]);
+                    data.add(dd);
+                }
+                myAdapter.notifyDataSetChanged();
+
+            }catch (Exception e){e.printStackTrace();}
+        }
+    }
+
+    public void initListView(){
+        myAdapter = new MyAdapter();
+        data = new LinkedList<>();
+        lvStocks.setAdapter(myAdapter);
+        lvStocks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+    }
+
+    private class MyAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return data.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            View view = inflater.inflate(R.layout.item_stocks,null);
+            TextView tvDate = view.findViewById(R.id.itemDate);
+            tvDate.setText(data.get(position).get("Date"));
+            TextView tvQuantity = view.findViewById(R.id.itemQuantity);
+            tvQuantity.setText(data.get(position).get("Quantity"));
+            TextView tvBuyPrice = view.findViewById(R.id.itemBuyPrice);
+            tvBuyPrice.setText(data.get(position).get("Price"));
+            EditText itemSellQ = view.findViewById(R.id.itemSellQ);
+            itemSellQ.setText("0");
+
+            return view;
+        }
+    }
+}
