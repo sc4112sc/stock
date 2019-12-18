@@ -33,11 +33,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TRANSACTION_COUNT = "transactionCount"; //10
 
     //TABLE Stock_Data
-    public static final String COLUMN_DATE = "date";
-    public static final String COLUMN_OPEN = "open";
-    public static final String COLUMN_HIGH = "high";
-    public static final String COLUMN_LOW = "low";
-    public static final String COLUMN_CLOSE = "close";
+    public static final String COLUMN_DATE = "date";//0
+    public static final String COLUMN_OPEN = "open";//1
+    public static final String COLUMN_HIGH = "high";//2
+    public static final String COLUMN_LOW = "low";//3
+    public static final String COLUMN_CLOSE = "close";//4
     //5 stockID
 
     //TABLE Record_Data

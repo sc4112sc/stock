@@ -46,12 +46,16 @@ public class HistroyActivity extends AppCompatActivity {
     private  String[] from = {"name","cash","get","lose","date","icon"};
     private  int[] to = {R.id.name_h,R.id.cash_h,R.id.get_h,R.id.lose_h,R.id.date_h,R.id.headIcon_h};
 
+    private SystemVoice systemVoice;
+    private BgmClass bgmClass;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_histroy);
 
-
+        bgmClass=new BgmClass(this);
+        systemVoice=new SystemVoice(this);
 
         dbHelper = new DBHelper(this);
 
@@ -113,9 +117,9 @@ public class HistroyActivity extends AppCompatActivity {
 
                     String playerName2 = cursor.getString(1);
                     String iconID2 = String.valueOf(cursor.getInt(2));
-                    //int cash2 = cursor.getInt(3);
+                    int cash2 = cursor.getInt(3);
 
-                    queryRecordData(account,playerName2,iconID2);
+                    queryRecordData(account,playerName2,iconID2,cash2);
 
                     cursor.moveToNext();
 
@@ -126,7 +130,7 @@ public class HistroyActivity extends AppCompatActivity {
 
     }
 
-    private void queryRecordData(String account,String playerName,String icon){
+    private void queryRecordData(String account,String playerName,String icon,int cash){
         cursor2 = null;
         cursor2 = dbHelper.queryTransactionRecord(account,playerName);
         Log.v("aaa","!!!"+cursor2.getCount());
@@ -137,9 +141,29 @@ public class HistroyActivity extends AppCompatActivity {
                 Log.v("aaa","!!!"+cursor2.getString(3)+","+cursor2.getString(4)+","+cursor2.getString(5)+
                         ","+cursor2.getString(6)+","+cursor2.getString(7)+","+cursor2.getString(8));
 
+                int rand = (int)(Math.random()*80+1);
+                int rand2 = (int)(Math.random()*80+1);
                 date =cursor2.getString(4);
-                putIn(playerName,"50000","60%","40%",date,icon);
+                putIn(playerName,""+cash,rand+"%",rand2+"%",date,icon);
             }
         }
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        bgmClass.BGM_historyStart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        bgmClass.BGMDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        bgmClass.BGMPause();
+
     }
 }

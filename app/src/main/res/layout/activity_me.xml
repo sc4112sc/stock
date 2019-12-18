@@ -20,20 +20,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageView
-                android:layout_width="230dp"
-                android:layout_height="230dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="24dp"
                 android:layout_marginBottom="154dp"
                 android:background="@drawable/circle" />
             <ImageView
                 android:id="@+id/headIcon"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginEnd="60dp"
+                android:layout_marginEnd="75dp"
                 android:layout_marginBottom="200dp"
                 android:background="@drawable/h7" />
 
@@ -65,6 +65,7 @@
                 android:background="@drawable/transparent2" />
 
             <TextView
+                android:id="@+id/allMoney"
                 android:layout_width="200dp"
                 android:layout_height="40dp"
                 android:layout_alignParentEnd="true"

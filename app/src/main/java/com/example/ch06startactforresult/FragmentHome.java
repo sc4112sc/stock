@@ -31,8 +31,8 @@ public class FragmentHome extends Fragment {
 
     private View myView;
     private Cursor cursor;
-    private static int offset = -29;
-    private static int number = 30;
+    private static int offset = -59;
+    private static int number = 60;
 
 
     @Nullable

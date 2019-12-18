@@ -42,6 +42,8 @@ public class FragmentBuy extends Fragment {
 
     private static LinkedList<HashMap<String,String>> data;
 
+    private SystemVoice systemVoice;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -60,7 +62,7 @@ public class FragmentBuy extends Fragment {
 
             builder = new AlertDialog.Builder(getContext(),R.style.MyAlertDialogTheme);
    //    }
-
+        systemVoice=new SystemVoice(getContext());
 
         ShimmerTextView shimmerTextView = myView.findViewById(R.id.shimmer_tv_buy);
         Shimmer shimmer = new Shimmer();
@@ -129,7 +131,7 @@ public class FragmentBuy extends Fragment {
         final int cost = (int)(buyQ * getStockGameActivity().getCurrentBuyPrice());
         builder.setTitle(getResources().getString(R.string.BUYING) + "股票")//+getStockGameActivity().getStockID())
                 .setMessage(getResources().getString(R.string.BUYING)+" "+buyQ+
-                        getResources().getString(R.string.UNIT)+" "+cost+" ?")
+                        getResources().getString(R.string.UNIT)+"  現金$→"+cost+" ?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -168,7 +170,7 @@ public class FragmentBuy extends Fragment {
             else{
                 Toast.makeText(getContext(),getResources().getString(R.string.NOT_ENOUGH_CASH),Toast.LENGTH_SHORT).show();
             }
-
+            systemVoice.ButtonTouchVoice();
         }
     };
 

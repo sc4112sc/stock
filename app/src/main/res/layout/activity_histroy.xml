@@ -9,6 +9,11 @@
     tools:context=".HistroyActivity"
     android:background="@drawable/cr_bg01"
     >
+    <com.flaviofaria.kenburnsview.KenBurnsView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/cr_bg01" ></com.flaviofaria.kenburnsview.KenBurnsView>
 
     <ListView
         android:id="@+id/list_h"

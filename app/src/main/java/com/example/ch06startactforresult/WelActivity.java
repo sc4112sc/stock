@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.skyfishjy.library.RippleBackground;
 
 public class WelActivity extends AppCompatActivity {
-
+    private SystemVoice systemVoice;
 
     private RippleBackground rippleBackground;
     private ImageView imageView;
@@ -24,7 +24,7 @@ public class WelActivity extends AppCompatActivity {
         imageView = findViewById(R.id.centerImage);
 
         rippleBackground.startRippleAnimation();
-
+        systemVoice=new SystemVoice(this);
 
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -34,6 +34,7 @@ public class WelActivity extends AppCompatActivity {
                 intent.setClass(WelActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
+                systemVoice.ButtonTouchVoice();
             }
         });
 

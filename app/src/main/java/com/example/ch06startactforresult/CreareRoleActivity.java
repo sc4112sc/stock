@@ -56,7 +56,8 @@ public class CreareRoleActivity extends AppCompatActivity {
     private Cursor cursor;
     private String[] charNames;
 
-    private MediaPlayer mediaPlayer;
+    private SystemVoice systemVoice;
+    private BgmClass bgmClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +68,8 @@ public class CreareRoleActivity extends AppCompatActivity {
         dbHelper = new DBHelper(this);
         preferences = getSharedPreferences("localSetting",MODE_PRIVATE);
 
-        mediaPlayer=new MediaPlayer();
-        mediaPlayer=MediaPlayer.create(this,R.raw.game_maoudamashii_5_village10);
-        mediaPlayer.setLooping(true);
-        mediaPlayer.setVolume(1.0f,1.0f);
+        bgmClass=new BgmClass(this);
+        systemVoice=new SystemVoice(this);
 
         //
         dbHelper = new DBHelper(this);
@@ -137,6 +136,7 @@ public class CreareRoleActivity extends AppCompatActivity {
                         AnimationDrawable background1 = (AnimationDrawable)myCha.getBackground();
                         // 開始播放
                         background1.start();
+                        systemVoice.ButtonTouchVoice();
                         break;
 
                     case 1:
@@ -144,6 +144,7 @@ public class CreareRoleActivity extends AppCompatActivity {
                         AnimationDrawable background2 = (AnimationDrawable)myCha.getBackground();
                         // 開始播放
                         background2.start();
+                        systemVoice.ButtonTouchVoice();
                         break;
                     case 2:
                         myCha.setBackgroundResource(R.drawable.c3_list);
@@ -151,6 +152,7 @@ public class CreareRoleActivity extends AppCompatActivity {
                         AnimationDrawable background3 = (AnimationDrawable)myCha.getBackground();
                         // 開始播放
                         background3.start();
+                        systemVoice.ButtonTouchVoice();
                         break;
 
                     case 3:
@@ -158,12 +160,14 @@ public class CreareRoleActivity extends AppCompatActivity {
                         AnimationDrawable background4 = (AnimationDrawable)myCha.getBackground();
                         // 開始播放
                         background4.start();
+                        systemVoice.ButtonTouchVoice();
                         break;
                     case 4:
                         myCha.setBackgroundResource(R.drawable.c5_list);
                         AnimationDrawable background5 = (AnimationDrawable)myCha.getBackground();
                         // 開始播放
                         background5.start();
+                        systemVoice.ButtonTouchVoice();
                         break;
 
                     case 5:
@@ -171,12 +175,14 @@ public class CreareRoleActivity extends AppCompatActivity {
                         AnimationDrawable background6 = (AnimationDrawable)myCha.getBackground();
                         // 開始播放
                         background6.start();
+                        systemVoice.ButtonTouchVoice();
                         break;
                     case 6:
                         myCha.setBackgroundResource(R.drawable.c7_list);
                         AnimationDrawable background7 = (AnimationDrawable)myCha.getBackground();
                         // 開始播放
                         background7.start();
+                        systemVoice.ButtonTouchVoice();
                         break;
 
                     case 7:
@@ -184,12 +190,14 @@ public class CreareRoleActivity extends AppCompatActivity {
                         AnimationDrawable background8 = (AnimationDrawable)myCha.getBackground();
                         // 開始播放
                         background8.start();
+                        systemVoice.ButtonTouchVoice();
                         break;
                     case 8:
                         myCha.setBackgroundResource(R.drawable.c9_list);
                         AnimationDrawable background9 = (AnimationDrawable)myCha.getBackground();
                         // 開始播放
                         background9.start();
+                        systemVoice.ButtonTouchVoice();
                         break;
 
                     case 9:
@@ -197,6 +205,7 @@ public class CreareRoleActivity extends AppCompatActivity {
                         AnimationDrawable background10 = (AnimationDrawable)myCha.getBackground();
                         // 開始播放
                         background10.start();
+                        systemVoice.ButtonTouchVoice();
                         break;
                 }
 
@@ -349,25 +358,24 @@ public class CreareRoleActivity extends AppCompatActivity {
 
                 goDio(getResources().getString(R.string.plzEnterName));
             }
-
+            systemVoice.ButtonTouchVoice();
         }
     };
 
     @Override
     protected void onStart() {
         super.onStart();
-        mediaPlayer.start();
+        bgmClass.BGM_creare_roleStart();
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mediaPlayer.release();
+        bgmClass.BGMDestroy();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mediaPlayer.pause();
-
+        bgmClass.BGMPause();
     }
 }

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -53,17 +54,17 @@ public class MainActivity extends AppCompatActivity {
     private int rolesCount;
 
     private KenBurnsView kbv;
-    private MediaPlayer mediaPlayer;
+    private SystemVoice systemVoice;
+    private BgmClass bgmClass;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mediaPlayer=new MediaPlayer();
-        mediaPlayer=MediaPlayer.create(this,R.raw.game_maoudamashii_5_village03);
-        mediaPlayer.setLooping(true);
-        mediaPlayer.setVolume(1.0f,1.0f);
 
+        bgmClass=new BgmClass(this);
+        systemVoice=new SystemVoice(this);
         //
         dbHelper = new DBHelper(this);
         preferences = getSharedPreferences("localSetting",MODE_PRIVATE);
@@ -100,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent();
                     intent.setClass(MainActivity.this, CreateActivity.class);
                     startActivity(intent);
+                    systemVoice.ButtonTouchVoice();
                 }
             });
 
@@ -107,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     check();
+                    systemVoice.ButtonTouchVoice();
                 }
             });
 
@@ -273,25 +276,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mediaPlayer.start();
+        bgmClass.BGM_mainStart();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mediaPlayer.release();
+        bgmClass.BGMDestroy();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mediaPlayer.pause();
-
+        bgmClass.BGMPause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mediaPlayer.start();
+        bgmClass.BGM_mainStart();
     }
+
 }

@@ -31,13 +31,16 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.math.BigDecimal;
+
 
 public class StockGameActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-    private MediaPlayer mediaPlayer;
+    private SystemVoice systemVoice;
+    private BgmClass bgmClass;
 
     private ImageView imgIcon;
-    private TextView tvPlayerName,tvCash,tvDate,tvDays;
+    private TextView tvPlayerName,tvCash,tvDate,tvDays ,tvProfit;
     public static Cursor cursor;
     public static DBHelper dbHelper;
     private FrameLayout flContent;
@@ -51,7 +54,10 @@ public class StockGameActivity extends AppCompatActivity implements NavigationVi
     public static int currentCash;
     private static int passingDays;
     private static int trasactionCount;
+    private static float stockP;
+    private static float pri;
 
+    private Cursor cursor2;
     private static int fragIndex;
     private static String playerName;
     private static String account;
@@ -72,10 +78,8 @@ public class StockGameActivity extends AppCompatActivity implements NavigationVi
         setContentView(R.layout.activity_stock_game);
 
 
-        mediaPlayer=new MediaPlayer();
-        mediaPlayer=MediaPlayer.create(this,R.raw.game_maoudamashii_5_village04);
-        mediaPlayer.setLooping(true);
-        mediaPlayer.setVolume(1.0f,1.0f);
+        bgmClass=new BgmClass(this);
+        systemVoice=new SystemVoice(this);
 
         account = getIntent().getStringExtra(DBHelper.COLUMN_ACCOUNT);
         playerName = getIntent().getStringExtra(DBHelper.COLUMN_PLAYER);
@@ -101,6 +105,7 @@ public class StockGameActivity extends AppCompatActivity implements NavigationVi
         tvDate = header.findViewById(R.id.tvDate);
         tvCash = header.findViewById(R.id.tvCash);
         tvDays = header.findViewById(R.id.tvDays);
+        tvProfit = header.findViewById(R.id.tvProfit);
 
 
 
@@ -167,7 +172,7 @@ public class StockGameActivity extends AppCompatActivity implements NavigationVi
                     currentMenuItem=0;
                     menuItem.setChecked(true);
                     drawer.closeDrawer(GravityCompat.START);
-
+                    systemVoice.ButtonTouchVoice();
                     break;
                 case R.id.nav_sell:
                     currentMenuItem=1;
@@ -175,6 +180,7 @@ public class StockGameActivity extends AppCompatActivity implements NavigationVi
                     transaction.replace(R.id.flContent,fragmentSell);
                     transaction.commit();
                     drawer.closeDrawer(GravityCompat.START);
+                    systemVoice.ButtonTouchVoice();
                     break;
                 case R.id.nav_buy:
                     currentMenuItem=2;
@@ -182,9 +188,11 @@ public class StockGameActivity extends AppCompatActivity implements NavigationVi
                     transaction.replace(R.id.flContent,fragmentBuy);
                     transaction.commit();
                     drawer.closeDrawer(GravityCompat.START);
+                    systemVoice.ButtonTouchVoice();
                     break;
                 case R.id.nav_next_day:
                     showNextDayAlert();
+                    systemVoice.ButtonTouchVoice();
                     break;
                 default:
                     break;
@@ -237,7 +245,7 @@ public class StockGameActivity extends AppCompatActivity implements NavigationVi
     protected void onStart() {
         super.onStart();
         loadingLocalUserData();
-        mediaPlayer.start();
+        bgmClass.BGM_stockgameStart();
     }
 
     @Override
@@ -261,6 +269,7 @@ public class StockGameActivity extends AppCompatActivity implements NavigationVi
     }
 
     public void loadingLocalUserData(){
+        queryRecordData(account,playerName);
         cursor=null;
         cursor = dbHelper.queryPlayerData(account,playerName);
         if(cursor.getCount()>0){
@@ -286,20 +295,48 @@ public class StockGameActivity extends AppCompatActivity implements NavigationVi
 
         }
 
+        coculate();
+        tvProfit.setText(""+pri);
+    }
+
+    private void coculate(){
+        if (trasactionCount!=0) {
+            float b = (currentBuyPrice - stockP) / stockP;
+            pri = (float) (Math.round(b * 100)) / 100;
+        }else {
+            tvProfit.setText("0.0");
+        }
+    }
+
+
+
+    private void queryRecordData(String account,String playerName){
+        cursor2 = null;
+        cursor2 = dbHelper.queryTransactionRecord(account,playerName);
+        Log.v("aaa","~~~"+cursor2.getCount());
+
+        if(cursor2.getCount()>0){
+            cursor2.moveToFirst();
+            for(int i=0;i<cursor2.getCount();i++){
+                Log.v("aaa","~~~"+cursor2.getString(3)+","+cursor2.getString(4)+","+cursor2.getString(5)+
+                        ","+cursor2.getString(6)+","+cursor2.getString(7)+","+cursor2.getString(8));
+
+                stockP = cursor2.getFloat(6);
+            }
+        }
     }
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mediaPlayer.release();
+        bgmClass.BGMDestroy();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mediaPlayer.pause();
-
+        bgmClass.BGMPause();
     }
 
 

@@ -57,17 +57,16 @@ public class ControlPanelActivity extends AppCompatActivity {
     private int[] animRoles;
 
 
-    private MediaPlayer mediaPlayer;
+    private SystemVoice systemVoice;
+    private BgmClass bgmClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control_panel);
 
-        mediaPlayer=new MediaPlayer();
-        mediaPlayer=MediaPlayer.create(this,R.raw.honobonojinja);
-        mediaPlayer.setLooping(true);
-        mediaPlayer.setVolume(1.0f,1.0f);
+        bgmClass=new BgmClass(this);
+        systemVoice=new SystemVoice(this);
 
         dbHelper = new DBHelper(this);
 
@@ -193,7 +192,7 @@ public class ControlPanelActivity extends AppCompatActivity {
         public void onClick(View view) {
             Intent intent = new Intent(ControlPanelActivity.this,MainActivity.class);
             startActivityForResult(intent,REQUEST_CODE_LOGIN);
-
+            systemVoice.ButtonTouchVoice();
         }
     };
 
@@ -207,7 +206,7 @@ public class ControlPanelActivity extends AppCompatActivity {
 
             Intent intent = new Intent(ControlPanelActivity.this,MainActivity.class);
             startActivity(intent);
-
+            systemVoice.ButtonTouchVoice();
 
         }
     };
@@ -248,7 +247,7 @@ public class ControlPanelActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadingLocalUserData();
-
+        bgmClass.BGM_controlpanelStart();
     }
 
 
@@ -257,6 +256,7 @@ public class ControlPanelActivity extends AppCompatActivity {
         intent.putExtra("account",account);
         intent.putExtra("playerName",playerName);
         startActivity(intent);
+        systemVoice.ButtonTouchVoice();
     }
 
     OnClickListener gameStartListener = new OnClickListener() {
@@ -293,6 +293,7 @@ public class ControlPanelActivity extends AppCompatActivity {
                 Toast.makeText(
                         ControlPanelActivity.this, getResources().getString(R.string.plzLogIn),Toast.LENGTH_SHORT).show();
             }
+            systemVoice.ButtonTouchVoice();
         }
     };
 
@@ -308,6 +309,7 @@ public class ControlPanelActivity extends AppCompatActivity {
                 Toast.makeText(ControlPanelActivity.this,
                         getResources().getString(R.string.plzLogIn),Toast.LENGTH_SHORT).show();
             }
+            systemVoice.ButtonTouchVoice();
         }
     };
 
@@ -356,6 +358,7 @@ public class ControlPanelActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HistroyActivity.class);
 
         startActivity(intent);
+        systemVoice.ButtonTouchVoice();
     }
 
     public void gotoOrder(View view) {
@@ -414,19 +417,18 @@ public class ControlPanelActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mediaPlayer.start();
+        bgmClass.BGM_controlpanelStart();
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mediaPlayer.release();
+        bgmClass.BGMDestroy();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mediaPlayer.pause();
-
+        bgmClass.BGMPause();
     }
 
 
@@ -435,5 +437,6 @@ public class ControlPanelActivity extends AppCompatActivity {
         intent.putExtra("name",playerName);
         intent.putExtra("account",account);
         startActivity(intent);
+        systemVoice.ButtonTouchVoice();
     }
 }

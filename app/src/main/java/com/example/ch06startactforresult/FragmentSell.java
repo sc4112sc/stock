@@ -47,7 +47,7 @@ public class FragmentSell extends Fragment {
     private int[] posessList;
     private static String rawData;
     private static String account,playerName;
-
+    private SystemVoice systemVoice;
 
     @Nullable
     @Override
@@ -76,6 +76,8 @@ public class FragmentSell extends Fragment {
             initListView();
             fetchRemoteData();
        // }
+        systemVoice=new SystemVoice(getContext());
+
         ShimmerTextView shimmerTextView = myView.findViewById(R.id.shimmer_tv_sell);
         Shimmer shimmer = new Shimmer();
         shimmer.start(shimmerTextView);
@@ -312,6 +314,7 @@ public class FragmentSell extends Fragment {
                 }
 
             }*/
+            systemVoice.ButtonTouchVoice();
         }
     };
 

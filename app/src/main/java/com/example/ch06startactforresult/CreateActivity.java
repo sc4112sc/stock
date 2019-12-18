@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,16 +46,15 @@ public class CreateActivity extends AppCompatActivity {
     private KenBurnsView kbv;
 
 
-    private MediaPlayer mediaPlayer;
+    private SystemVoice systemVoice;
+    private BgmClass bgmClass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
 
-        mediaPlayer=new MediaPlayer();
-        mediaPlayer=MediaPlayer.create(this,R.raw.game_maoudamashii_5_village03);
-        mediaPlayer.setLooping(true);
-        mediaPlayer.setVolume(1.0f,1.0f);
+        bgmClass=new BgmClass(this);
+        systemVoice=new SystemVoice(this);
 
         ((TextView)findViewById(R.id.block2)).setAlpha(0.8f);
         kbv = (KenBurnsView) findViewById(R.id.image2);
@@ -115,7 +115,7 @@ public class CreateActivity extends AppCompatActivity {
                 }else {
                     Toast.makeText(CreateActivity.this, "發生錯誤！", Toast.LENGTH_LONG).show();
                 }
-
+                systemVoice.ButtonTouchVoice();
             }
         });
 
@@ -226,19 +226,18 @@ public class CreateActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mediaPlayer.start();
+        bgmClass.BGM_createStart();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mediaPlayer.release();
+        bgmClass.BGMDestroy();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mediaPlayer.pause();
-
+        bgmClass.BGMPause();
     }
 }

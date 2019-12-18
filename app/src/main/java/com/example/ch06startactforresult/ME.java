@@ -33,15 +33,28 @@ public class ME extends AppCompatActivity {
     private ImageView iconView;
     private TextView textView;
     private TextView cashView;
+    private TextView allMoneyView;
 
     private String account;
     private String playerName;
 
+    private SystemVoice systemVoice;
+    private BgmClass bgmClass;
+
+
+    private Cursor cursor2;
+
+    private int allMoney;
+    private int stockQuantity;
+    private float stockPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_me);
+
+        bgmClass=new BgmClass(this);
+        systemVoice=new SystemVoice(this);
 
      //   dbHelper = new DBHelper(this);
         account = preferences.getString("account","");
@@ -52,6 +65,7 @@ public class ME extends AppCompatActivity {
         textView = findViewById(R.id.nameText);
         iconView = findViewById(R.id.headIcon);
         cashView = findViewById(R.id.myCash);
+        allMoneyView = findViewById(R.id.allMoney);
 
 
         viewPager = findViewById(R.id.viewPager);
@@ -167,6 +181,7 @@ public class ME extends AppCompatActivity {
 
 
     private void setScreenData(){
+        fetchStockQuantity();
         cursor = null;
         cursor = dbHelper.queryNonClearPlayerData(account,0);
         if(cursor!=null){
@@ -185,6 +200,9 @@ public class ME extends AppCompatActivity {
                     cashView.setText("目前現金 : "+cash);
 
 
+                    allMoney = cash+Math.round(stockQuantity*stockPrice);
+                    allMoneyView.setText("目前總資產 : "+allMoney);
+
                     return;
                 }
                 cursor.moveToNext();
@@ -193,8 +211,40 @@ public class ME extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        bgmClass.BGM_meStart();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        bgmClass.BGMDestroy();
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        bgmClass.BGMPause();
 
+    }
+
+    private void fetchStockQuantity(){
+
+        cursor2 = null;
+        cursor2 = dbHelper.queryTransactionRecord(account,playerName);
+        Log.v("aaa","!!!"+cursor2.getCount());
+
+        if(cursor2.getCount()>0){
+            cursor2.moveToFirst();
+            for(int i=0;i<cursor2.getCount();i++){
+
+                stockQuantity = cursor2.getInt(5);
+                stockPrice = cursor2.getFloat(6);
+
+            }
+        }
+    }
 
 }
