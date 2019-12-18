@@ -71,7 +71,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db = getWritableDatabase();
         //resetDatabase();
         mCreateDataTable(db);
-        loadingTestData(db);
+        //loadingTestData(db);
         loadingStockTable(db);
     }
     public void resetDatabase(){
@@ -205,7 +205,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
         }
     }
-
+    public void updateClearStage(String account,String playerName){
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_STAGE_CLEAR,1);
+        String whereClause= DBHelper.COLUMN_ACCOUNT+"= ? AND "+ DBHelper.COLUMN_PLAYER+"= ? ";
+        String[] whereArgs=new String[]{account,playerName};
+        db.update(DBHelper.DATA_TABLE_PLAYER,values,whereClause,whereArgs);
+    }
 
     public void updateDays(String account,String playerName,String currentDate,int passingDays){
         ContentValues values = new ContentValues();

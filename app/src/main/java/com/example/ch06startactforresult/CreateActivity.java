@@ -2,6 +2,7 @@ package com.example.ch06startactforresult;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.Editable;
@@ -29,6 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
+
 public class CreateActivity extends AppCompatActivity {
 
     public Button create;
@@ -44,6 +46,8 @@ public class CreateActivity extends AppCompatActivity {
     private TextWatcher textWatcher;
 
     private KenBurnsView kbv;
+    public static SharedPreferences preferences;
+    public static SharedPreferences.Editor editor;
 
 
     private SystemVoice systemVoice;
@@ -52,6 +56,9 @@ public class CreateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
+
+        preferences = getSharedPreferences("localSetting",MODE_PRIVATE);
+        editor = preferences.edit();
 
         bgmClass=new BgmClass(this);
         systemVoice=new SystemVoice(this);
@@ -213,9 +220,14 @@ public class CreateActivity extends AppCompatActivity {
             public void onClick(DialogInterface arg0, int arg1) {
                 // TODO Auto-generated method stub
 
+                editor = preferences.edit();
+                editor.putString("account", accountEdit.getText().toString().trim());
+                editor.putString("playerName", passwordEdit.getText().toString().trim());
+                editor.commit();
                 Intent intent = new Intent();
                 intent.setClass(CreateActivity.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             }
 
         });

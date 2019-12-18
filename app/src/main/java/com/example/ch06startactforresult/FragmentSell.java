@@ -320,8 +320,8 @@ public class FragmentSell extends Fragment {
 
 
 
-    public void buyNotifyChange(){
-        if(data!= null){
+    public void sellNotifyChange(){
+        if(data!= null && myAdapter!= null){
         data.clear();
         fetchRemoteData();
         }

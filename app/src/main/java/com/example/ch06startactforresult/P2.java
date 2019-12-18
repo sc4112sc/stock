@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import static com.example.ch06startactforresult.P1.*;
-import static com.example.ch06startactforresult.StockGameActivity.*;
+import static com.example.ch06startactforresult.ControlPanelActivity.*;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,7 +45,6 @@ public class P2 extends Fragment {
             tvCurrentProfitPercent.setText(temp);
             temp="目前資產\n"+getCurrentState()+"美元";
             tvCurrentState.setText(temp);
-
         }
         else {
             tvProfitPercentMax.setText("最高獲利率\n0%");
@@ -60,7 +59,7 @@ public class P2 extends Fragment {
 
     private int getCurrentState(){
         int currentState = 0;
-        Log.v("aaa","STOCKLIST"+stocksList);
+     //   Log.v("aaa","STOCKLIST"+stocksList);
         if(stocksList!=null &&!stocksList.equals("") ){
             String[] list = stocksList.split(";");
             for(int i=0;i<list.length;i++)
@@ -68,11 +67,10 @@ public class P2 extends Fragment {
                 String[] temp2 = list[i].split(":");
                 String[] detail = temp2[1].split(",");
                 int stockQ = Integer.parseInt(detail[0]);
-
                 currentState += (int)(stockQ *  Float.valueOf(currentSellPrice));
             }
         }
-        currentState += currentCash;
+        currentState += playerCash;
         return currentState;
     }
 

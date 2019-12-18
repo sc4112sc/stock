@@ -123,7 +123,7 @@ public class P1 extends Fragment {
                     winCount++;
                 transactionBuy[i] = totalBuy;
                 transactionSell[i] = totalSell;
-                profitSituation[i] = totalBuy - totalSell;
+                profitSituation[i] = totalSell - totalBuy ;
                 profitPercent[i] = (((float)profitSituation[i]/20000)*100);
             }
         }

@@ -82,8 +82,11 @@ public class MainActivity extends AppCompatActivity {
         passwordLayout.setErrorEnabled(true);
         accoutLayout.setErrorEnabled(true);
 
-        accountEdit.setText("111111@gmail.com");
-        passwordEdit.setText("111111");
+
+        myAccount = preferences.getString("account","");
+        myPassword = preferences.getString("password","");
+        accountEdit.setText(myAccount);
+        passwordEdit.setText(myPassword);
 
         ((TextView)findViewById(R.id.block)).setAlpha(0.8f);
 
@@ -188,7 +191,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
                 // TODO Auto-generated method stub
-
+                editor = preferences.edit();
+                editor.putString("account", accountEdit.getText().toString().trim());
+                editor.putString("playerName", passwordEdit.getText().toString().trim());
+                editor.commit();
                 pickRoleDio();
             }
 
@@ -271,6 +277,7 @@ public class MainActivity extends AppCompatActivity {
         });
         dialog.setCancelable(false);
         dialog.show();
+
     }
 
     @Override

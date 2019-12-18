@@ -3,17 +3,12 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/block"
-        android:layout_width="640dp"
-        android:layout_height="200dp"
-        android:layout_centerInParent="true"
-        android:background="@android:color/white"></TextView>
+
     <TextView
         android:id="@+id/text1_h"
         android:layout_width="640dp"
         android:layout_height="200dp"
-        android:background="@drawable/transparent"
+        android:background="@drawable/circle2"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         />
@@ -25,7 +20,7 @@
         android:layout_height="130dp"
         android:layout_alignStart="@+id/text1_h"
         android:layout_alignTop="@+id/text1_h"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="80dp"
         android:layout_marginTop="36dp"
         android:background="#00000000"
         android:gravity="center"
@@ -45,7 +40,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/myItem_h"
         android:textSize="24dp"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:text="暱稱:\n最後所持現金:\n最高獲利率:\n最高虧損率:\n結束日期:"></TextView>
     <TextView
         android:id="@+id/name_h"
@@ -55,7 +50,7 @@
         android:layout_alignTop="@id/text1_h"
         android:text="name"
         android:textSize="26dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="100dp"
         android:layout_marginTop="10dp"
         android:textColor="@android:color/holo_purple"
 
@@ -69,7 +64,7 @@
         android:layout_below="@id/name_h"
         android:text="200000"
         android:textSize="26dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="100dp"
         android:textColor="@android:color/holo_purple"
 
         ></TextView>
@@ -81,7 +76,7 @@
         android:layout_below="@id/cash_h"
         android:text="20%"
         android:textSize="26dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="100dp"
         android:textColor="@android:color/holo_purple"
 
         ></TextView>
@@ -93,7 +88,7 @@
         android:layout_above="@id/date_h"
         android:text="20%"
         android:textSize="26dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="100dp"
         android:textColor="@android:color/holo_purple"
 
         ></TextView>
@@ -105,7 +100,7 @@
         android:layout_alignBottom="@id/text1_h"
         android:text="2000/04/04"
         android:textSize="26dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="100dp"
         android:layout_marginBottom="10dp"
         android:textColor="@android:color/holo_purple"
 

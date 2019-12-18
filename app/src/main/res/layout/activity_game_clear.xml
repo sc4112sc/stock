@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GameClearActivity"
+    android:background="@drawable/i01">
+
+    <com.flaviofaria.kenburnsview.KenBurnsView
+        android:id="@+id/image2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/i01" ></com.flaviofaria.kenburnsview.KenBurnsView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints"
+        android:text="GAME OVER"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:textSize="60dp"
+        android:textStyle="bold"
+        android:background="@drawable/transparent_p"
+        android:textColor="@android:color/holo_purple"></TextView>
+</RelativeLayout>

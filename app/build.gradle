@@ -47,3 +47,8 @@ android {
         implementation 'com.romainpiel.shimmer:library:1.4.0@aar'
     }
 }
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:+'
+    implementation 'androidx.constraintlayout:constraintlayout:+'
+}

@@ -22,10 +22,13 @@ import com.anychart.data.TableMapping;
 import com.anychart.enums.StockSeriesType;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import static com.example.ch06startactforresult.StockGameActivity.*;
 
 public class FragmentHome extends Fragment {
 
@@ -33,6 +36,7 @@ public class FragmentHome extends Fragment {
     private Cursor cursor;
     private static int offset = -59;
     private static int number = 60;
+    private List<DataEntry> data;
 
 
     @Nullable
@@ -43,6 +47,7 @@ public class FragmentHome extends Fragment {
             myView = inflater.inflate(R.layout.fragment_home, container, false);
             AnyChartView anyChartView = myView.findViewById(R.id.any_chart_view);
             anyChartView.setProgressBar(myView.findViewById(R.id.progress_bar));
+            data = new ArrayList<>();
 
             Table table = Table.instantiate("x");
             table.addData(getData());
@@ -76,16 +81,44 @@ public class FragmentHome extends Fragment {
     private StockGameActivity getStockGameActivity(){
         return (StockGameActivity)getActivity();
     }
+    public void homeNotifyChange(){
+        if(myView!= null && data!= null){
+            data.clear();
+            AnyChartView anyChartView = myView.findViewById(R.id.any_chart_view);
+            anyChartView.setProgressBar(myView.findViewById(R.id.progress_bar));
+            Table table = Table.instantiate("x");
+            table.addData(getData());
 
+            TableMapping mapping = table.mapAs("{open: 'open', high: 'high', low: 'low', close: 'close'}");
+
+            Stock stock = AnyChart.stock();
+
+            Plot plot = stock.plot(0);
+            plot.yGrid(true)
+                    .xGrid(true)
+                    .yMinorGrid(true)
+                    .xMinorGrid(true);
+
+            plot.ema(table.mapAs("{value: 'close'}"), 20d, StockSeriesType.LINE);
+
+            plot.ohlc(mapping)
+                    .name("CSCO")
+                    .legendItem("{\n" +
+                            "        iconType: 'rising-falling'\n" +
+                            "      }");
+
+            stock.scroller().ohlc(mapping);
+
+            anyChartView.setChart(stock);
+        }
+    }
     private List<DataEntry> getData() {
-        List<DataEntry> data = new ArrayList<>();
-
-        String currentDate ;
+        String today ;
         double open,high,low,close;
 
         cursor = null;
         cursor = getStockGameActivity().dbHelper.queryAllStockData();
-        String today = getStockGameActivity().getCurrentDate();
+        today = currentDate;
         int index=0;
         if(cursor.getCount()>0)
         {
@@ -103,7 +136,7 @@ public class FragmentHome extends Fragment {
         for(int i=0;i<number;i++){
             Long temp=0L;
             cursor.moveToPosition(index+offset+i);
-            currentDate = cursor.getString(0);
+            today = cursor.getString(0);
             //   Log.v("aaa",""+currentDate);
             open = cursor.getDouble(1);
             high = cursor.getDouble(2);
@@ -113,9 +146,10 @@ public class FragmentHome extends Fragment {
 
             Calendar calendar = Calendar.getInstance();
             DateFormat df = DateFormat.getDateInstance();
+           // SimpleDateFormat df = new SimpleDateFormat("yyyy/mm/dd");
             Date date;
             try{
-                date = df.parse(currentDate);
+                date = df.parse(today);
                 calendar.setTime(date);
             }
             catch (Exception e){e.printStackTrace();}

@@ -298,7 +298,7 @@ public class CreareRoleActivity extends AppCompatActivity {
                     goDio(getResources().getString(R.string.REPEAT_NAME));
                 }
                 else {
-                    String account = getIntent().getStringExtra("account");
+                    String account = preferences.getString("account","");
                     String PlayerName = nickname;
                     int iconId = count;
                     int PlayerCash=20000;
@@ -309,6 +309,8 @@ public class CreareRoleActivity extends AppCompatActivity {
                     Random random = new Random();
                     int index = random.nextInt(100);
                     cursor.moveToPosition(index+100);
+                    Log.v("aaa","account"+account);
+                    Log.v("aaa","PlayerName"+PlayerName);
 
                     ContentValues values = new ContentValues();
                     values.put(DBHelper.COLUMN_ACCOUNT,account);
@@ -326,10 +328,17 @@ public class CreareRoleActivity extends AppCompatActivity {
                     dbHelper.addPlayer(values);
                     cursor.isClosed();
 
+                    editor = preferences.edit();
+                    //editor.putString("account", account);
+                    editor.putString("playerName", PlayerName);
+                    editor.commit();
 
-                    Intent intent = new Intent();
+                    Intent intent = new Intent(CreareRoleActivity.this,ControlPanelActivity.class);
                     intent.putExtra("playerName",nickname);
-                    setResult(RESULT_OK,intent);
+                    startActivity(intent);
+                    finish();
+
+
 /*
                     myNickname = nickname;
                     myRole = count;
@@ -349,7 +358,7 @@ public class CreareRoleActivity extends AppCompatActivity {
                     intent.setClass(CreareRoleActivity.this, ControlPanelActivity.class);
                     startActivity(intent);
 */
-                    finish();
+
 
                 }
 

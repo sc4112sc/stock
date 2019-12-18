@@ -1,6 +1,7 @@
 package com.example.ch06startactforresult;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Matrix;
 import android.graphics.PointF;
@@ -194,6 +195,11 @@ public class StockGameActivity extends AppCompatActivity implements NavigationVi
                     showNextDayAlert();
                     systemVoice.ButtonTouchVoice();
                     break;
+                case R.id.nav_send:
+                    Intent intent = new Intent(this,ControlPanelActivity.class);
+                    startActivity(intent);
+                    finish();
+                    break;
                 default:
                     break;
             }
@@ -221,6 +227,7 @@ public class StockGameActivity extends AppCompatActivity implements NavigationVi
                             dbHelper.updateDays(account,playerName,currentDate,passingDays);
                             notifyDataChange();
                             loadingLocalUserData();
+                            drawer.closeDrawer(GravityCompat.START);
 
                         }
                     }
@@ -264,8 +271,9 @@ public class StockGameActivity extends AppCompatActivity implements NavigationVi
         //fragmentSell.fetchRemoteData();
 //        fragmentBuy.initListView();
   //      fragmentBuy.fetchRemoteData();
-        fragmentSell.buyNotifyChange();
+        fragmentSell.sellNotifyChange();
         fragmentBuy.buyNotifyChange();
+        fragmentHome.homeNotifyChange();
     }
 
     public void loadingLocalUserData(){
@@ -296,15 +304,27 @@ public class StockGameActivity extends AppCompatActivity implements NavigationVi
         }
 
         coculate();
-        tvProfit.setText(""+pri);
+        float pri2 = pri*100;
+        tvProfit.setText(pri2+"%");
+
+        if(passingDays>60){
+            Intent intent = new Intent(this,GameClearActivity.class);
+            cursor=null;
+            cursor = dbHelper.queryPlayerData(account,playerName);
+            dbHelper.updateClearStage(account,playerName);
+            startActivity(intent);
+            finish();
+        }
+
     }
 
     private void coculate(){
+        pri = 0;
         if (trasactionCount!=0) {
             float b = (currentBuyPrice - stockP) / stockP;
-            pri = (float) (Math.round(b * 100)) / 100;
+            pri = (float) (Math.round(b * 10000)) / 10000;
         }else {
-            tvProfit.setText("0.0");
+            tvProfit.setText("0.00%");
         }
     }
 

@@ -34,9 +34,13 @@ import android.widget.Toast;
 
 public class ControlPanelActivity extends AppCompatActivity {
     public static SharedPreferences preferences;
-    private SharedPreferences.Editor editor;
+    public static SharedPreferences.Editor editor;
     private String account,playerName,playerChar;
-    private int playerCash;
+    public static int playerCash;
+    public static String stocksList,currentDate;
+    public static float currentSellPrice;
+
+
     private boolean isMute,isShowChar,isShowBackGround;
     public static DBHelper dbHelper;
     //  private AlertDialog.Builder builder;
@@ -55,6 +59,7 @@ public class ControlPanelActivity extends AppCompatActivity {
     private int tempRole;
     private int[] roles;
     private int[] animRoles;
+    private int passingDays;
 
 
     private SystemVoice systemVoice;
@@ -120,6 +125,8 @@ public class ControlPanelActivity extends AppCompatActivity {
 
 
 
+
+
     private boolean isLogIn(){
         if (!account.equals("")){
             return true;   }
@@ -132,12 +139,12 @@ public class ControlPanelActivity extends AppCompatActivity {
             btnLogIn.setText("Log Out");
             btnLogIn.setOnClickListener(logOutListener);
             playerName = preferences.getString("playerName","");
-            if(playerName.equals("")){
-                tvDays.setText("DAY ?");
-            }
-            else{
+   //         if(playerName.equals("")){
+     //           tvDays.setText("DAY ?");
+       //     }
+         //   else{
                 setScreenData();
-            }
+           // }
             //tvDays.setText("DAY 0");
           //  tvPlayerName.setText(tempName);
           //  imgIcon.setImageResource(roles[tempRole]);
@@ -166,7 +173,7 @@ public class ControlPanelActivity extends AppCompatActivity {
                 {
                     String playerName = cursor.getString(1);
                     int iconID = cursor.getInt(2);
-                    int passingDays= cursor.getInt(4);
+                    passingDays= cursor.getInt(4);
                     int cash = cursor.getInt(3);
                     tvDays.setText("DAY "+passingDays);
                     tvPlayerName.setText(playerName);
@@ -175,6 +182,15 @@ public class ControlPanelActivity extends AppCompatActivity {
                     playerCash = cash;
                     changeRoom();
                     roleAnim();
+                    stocksList = cursor.getString(6);
+                    currentDate = cursor.getString(8);
+                    currentSellPrice = 0.0f;
+                    cursor = null;
+                    cursor = dbHelper.queryTodayStockDetail(currentDate);
+                    if(cursor.getCount()>0){
+                        cursor.moveToFirst();
+                        currentSellPrice=cursor.getFloat(4);
+                    }
                     return;
                 }
                 cursor.moveToNext();
@@ -214,6 +230,7 @@ public class ControlPanelActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
 /*
         if(requestCode==REQUEST_CODE_LOGIN){
             switch (resultCode){
@@ -267,7 +284,7 @@ public class ControlPanelActivity extends AppCompatActivity {
                 if(!playerName.equals("")){
                     AlertDialog.Builder builder = new AlertDialog.Builder(ControlPanelActivity.this, R.style.MyAlertDialogTheme)
                             .setTitle(getResources().getString(R.string.GAME_START))
-                            .setMessage(cursor.getString(1)+" "+"DAY " +cursor.getInt(4))
+                            .setMessage(playerName+" "+"DAY " +passingDays)
                             .setPositiveButton(getResources().getString(R.string.POSITIVE), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -303,7 +320,8 @@ public class ControlPanelActivity extends AppCompatActivity {
             if(isLogIn()){
                 Intent intent = new Intent(ControlPanelActivity.this,CreareRoleActivity.class);
                 intent.putExtra("account",account);
-                startActivityForResult(intent,REQUEST_CODE_CREATE_ROLE);
+               // startActivityForResult(intent,REQUEST_CODE_CREATE_ROLE);
+                startActivity(intent);
             }
             else {
                 Toast.makeText(ControlPanelActivity.this,

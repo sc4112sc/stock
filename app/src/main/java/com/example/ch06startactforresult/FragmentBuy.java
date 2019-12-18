@@ -281,7 +281,7 @@ public class FragmentBuy extends Fragment {
     }
 
     public void buyNotifyChange(){
-        if(data!= null){
+        if(data!= null && myAdapter!= null){
         data.clear();
         fetchRemoteData();
         }
