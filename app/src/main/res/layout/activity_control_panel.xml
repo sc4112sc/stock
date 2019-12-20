@@ -87,8 +87,8 @@
 
     <ImageView
         android:id="@+id/roomRole"
-        android:layout_width="100dp"
-        android:layout_height="150dp"
+        android:layout_width="350px"
+        android:layout_height="450px"
         android:background="@drawable/c8_list"></ImageView>
 
     <LinearLayout

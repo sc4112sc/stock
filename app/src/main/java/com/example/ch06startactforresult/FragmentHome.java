@@ -82,8 +82,13 @@ public class FragmentHome extends Fragment {
         return (StockGameActivity)getActivity();
     }
     public void homeNotifyChange(){
-        if(myView!= null && data!= null){
-            data.clear();
+        fragmentHome = new FragmentHome();
+        transaction.replace(R.id.flContent,fragmentHome);
+        transaction.commit();
+
+        /*
+     //   if(myView!= null && data!= null){
+       //     data.clear();
             AnyChartView anyChartView = myView.findViewById(R.id.any_chart_view);
             anyChartView.setProgressBar(myView.findViewById(R.id.progress_bar));
             Table table = Table.instantiate("x");
@@ -110,7 +115,9 @@ public class FragmentHome extends Fragment {
             stock.scroller().ohlc(mapping);
 
             anyChartView.setChart(stock);
-        }
+            transaction.replace(R.id.flContent,fragmentHome);
+            transaction.commit();*/
+      //  }
     }
     private List<DataEntry> getData() {
         String today ;

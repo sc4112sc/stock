@@ -45,7 +45,7 @@ public class StockGameActivity extends AppCompatActivity implements NavigationVi
     public static Cursor cursor;
     public static DBHelper dbHelper;
     private FrameLayout flContent;
-    private FragmentHome fragmentHome;
+    public static FragmentHome fragmentHome;
     private FragmentSell fragmentSell;
     private FragmentBuy fragmentBuy;
     private FragmentManager fragmentManager;
@@ -67,7 +67,7 @@ public class StockGameActivity extends AppCompatActivity implements NavigationVi
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private int currentMenuItem;
-    private FragmentTransaction transaction;
+    public static FragmentTransaction transaction;
     private AlertDialog.Builder builder;
 
     private static int[] roles = {R.drawable.h1, R.drawable.h2,R.drawable.h3,R.drawable.h4,R.drawable.h5
@@ -228,6 +228,7 @@ public class StockGameActivity extends AppCompatActivity implements NavigationVi
                             notifyDataChange();
                             loadingLocalUserData();
                             drawer.closeDrawer(GravityCompat.START);
+                            fragmentHome.homeNotifyChange();
 
                         }
                     }
@@ -273,7 +274,7 @@ public class StockGameActivity extends AppCompatActivity implements NavigationVi
   //      fragmentBuy.fetchRemoteData();
         fragmentSell.sellNotifyChange();
         fragmentBuy.buyNotifyChange();
-        fragmentHome.homeNotifyChange();
+
     }
 
     public void loadingLocalUserData(){

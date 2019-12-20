@@ -411,13 +411,13 @@ public class ControlPanelActivity extends AppCompatActivity {
         Path path = new Path();
         path.moveTo(0,0);
 
-        path.lineTo((screenWidth-300)/4,(-screenHeight+1200));
-        path.lineTo((screenWidth-300)/3,(-screenHeight+1150));
-        path.lineTo((screenWidth-300)/2,(-screenHeight+1100));
-        path.lineTo((screenWidth-300)/1,(-screenHeight+1150));
-        path.lineTo((screenWidth-300)/2,(-screenHeight+1200));
-        path.lineTo((screenWidth-300)/3,(-screenHeight+1150));
-        path.lineTo((screenWidth-300)/4,(-screenHeight+1200));
+        path.lineTo((screenWidth-350)/4,(screenHeight-(screenHeight-150)));
+        path.lineTo((screenWidth-350)/3,(screenHeight-(screenHeight-100)));
+        path.lineTo((screenWidth-350)/2,(screenHeight-(screenHeight-50)));
+        path.lineTo((screenWidth-350)/1,(screenHeight-(screenHeight-150)));
+        path.lineTo((screenWidth-350)/2,(screenHeight-(screenHeight-100)));
+        path.lineTo((screenWidth-350)/3,(screenHeight-(screenHeight-150)));
+        path.lineTo((screenWidth-350)/4,(screenHeight-(screenHeight-100)));
         path.lineTo(0,0);
 
 
